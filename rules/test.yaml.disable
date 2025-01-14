@@ -83,7 +83,7 @@ alert_text_type: alert_text_only
 #    '5': 'Notice ℹ️'
 
 # from botfather
-telegram_bot_token: 7567290410:AAEv0mw9zJ1qDH364raibbuIPmmRmizAJFU
+telegram_bot_token: abcd
 # Unique identifier for the target chat or username of the target channel (in the format @channelusername)
 # https://api.telegram.org/bot_token/getUpdates
-telegram_room_id: '-4740407928'
+telegram_room_id: 'abcd'
