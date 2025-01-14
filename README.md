@@ -8,6 +8,7 @@ mkdir rules
 ```
 
 Put your elasticsearch certs in the ca/ folder, these will be use to connect to elasticsearch
+
 Your custom rules will go in the rules/ folder
 
 The directory should look like this:
