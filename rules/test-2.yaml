@@ -1,0 +1,30 @@
+name: alert_every_log_processed
+
+# Elasticsearch settings
+es_host: 192.168.140.231
+es_port: 9200
+index: modsec-*
+
+# Rule to alert on any log
+type: any
+
+# Match all documents
+filter:
+- query:
+    match_all: {}
+
+# Define the alert action using 'command'
+alert:
+- command
+
+# Full command configuration
+command: python3 /opt/elastalert/scripts/modsec_messages_parse.py '{0}'
+
+alert_text_args:
+  - "transaction.messages.message"
+
+# Optional: Customize the text that gets passed to the alert
+alert_text: ModSecurity Alert Processed
+
+# Prevent ElastAlert from adding metadata to the JSON alert
+raw_count_keys: true

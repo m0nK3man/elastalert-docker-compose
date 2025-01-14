@@ -1,0 +1,89 @@
+# Alert when a login event is detected for user "admin" never before seen IP
+# In this example, "login" logs contain which user has logged in from what IP
+
+# (Optional)
+# Elasticsearch host
+es_host: 192.168.140.231
+
+# (Optional)
+# Elasticsearch port
+es_port: 9200
+
+# (OptionaL) Connect with SSL to Elasticsearch
+#use_ssl: True
+
+# (Optional) basic-auth username and password for Elasticsearch
+#es_username: someusername
+#es_password: somepassword
+
+# (Required)
+# Rule name, must be unique
+name: modsecurity_alert
+
+# (Required)
+# Type of alert.
+# the frequency rule type alerts when num_events events occur with timeframe time
+type: any
+
+# (Required)
+# Index to search, wildcard supported
+index: modsec-*
+
+# (Required, new_term specific)
+# Monitor the field ip_address
+#fields:
+# - "_id"
+
+# (Optional, new_term specific)
+# This means that we will query 90 days worth of data when ElastAlert starts to find which values of ip_address already exist
+# If they existed in the last 90 days, no alerts will be triggered for them when they appear
+#terms_window_size:
+#  days: 1
+
+# (Required)
+# A list of Elasticsearch filters used for find events
+# These filters are joined with AND and nested in a filtered query
+# For more info: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl.html
+# We are filtering for only "login_event" type documents with username "admin"
+filter:
+- query:
+    match_all: {}
+
+# (Required)
+# The alert is use when a match is found
+alert:
+- "telegram"
+
+# Alert text with formatting
+alert_text: |
+    🚨 **ModSecurity WAF Alert**
+    🕒 **Timestamp:** {0}
+    ⚠️ **Message:** {1}
+
+    🌐 **Host:** {2}
+    🔌 **Port:** {3}
+    📄 **URI:** {4}
+    📥 **Status Code:** {5}
+
+alert_text_args:
+  - "transaction.time_stamp"
+  - "transaction.messages.message"
+  - "transaction.request.headers.Host"
+  - "transaction.host_port"
+  - "transaction.request.uri"
+  - "transaction.response.http_code"
+
+# Map severity values to corresponding labels
+alert_text_type: alert_text_only
+#alert_text_args_map:
+#  transaction.messages.details.severity:
+#    '2': 'Critical 🚨'
+#    '3': 'Error ❌'
+#    '4': 'Warning ⚠️'
+#    '5': 'Notice ℹ️'
+
+# from botfather
+telegram_bot_token: 7567290410:AAEv0mw9zJ1qDH364raibbuIPmmRmizAJFU
+# Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+# https://api.telegram.org/bot_token/getUpdates
+telegram_room_id: '-4740407928'

@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  elastalert:
+    image: jertel/elastalert2
+    container_name: elastalert
+    restart: always
+    volumes:
+      - ./config.yaml:/opt/elastalert/config.yaml
+      - ./rules:/opt/elastalert/rules
+      - ./ca:/opt/elastalert/ca
+      - ./scripts:/opt/elastalert/scripts
+    command: --verbose

@@ -1,0 +1,84 @@
+# Detect spikes in logs in the modsec-* index
+
+# (Optional)
+# Elasticsearch host
+es_host: es-host
+
+# (Optional)
+# Elasticsearch port
+es_port: 9200
+
+# (Optional) Connect with SSL to Elasticsearch
+#use_ssl: True
+
+# (Optional) basic-auth username and password for Elasticsearch
+#es_username: someusername
+#es_password: somepassword
+
+# (Required)
+# Rule name, must be unique
+name: modsecurity_spike_alert
+
+# (Required)
+# Type of rule. Spike detects sudden increases in event counts.
+type: spike
+
+# (Required)
+# Index to search, wildcard supported
+index: modsec-*
+
+# (Required)
+# The time range to search for events to compare with the baseline
+timeframe:
+  minutes: 10
+
+# (Required)
+# Lookback period for the baseline (historical data to compare against)
+spike_lookback:
+  hours: 1
+
+# (Required)
+# Thresholds for triggering the alert
+# This will alert if the number of logs in the last 10 minutes is 4 times greater than the average number in the baseline
+threshold_ref: 4
+threshold_cur: 1
+
+# Alert if logs spike by 4x or more relative to the baseline
+# threshold_cur: Minimum number of events needed in the "current timeframe" (prevents alerts for small changes)
+
+# (Optional) Filters for matching specific events in the logs
+# Leave empty to monitor all logs
+filter:
+- query:
+    match_all: {}
+
+# (Required)
+# Specify the type of alert (e.g., Telegram, email, etc.)
+alert:
+- "telegram"
+
+# Alert text with formatting
+alert_text: |
+    🚨 **Spike Detected in ModSecurity Logs**
+    🕒 **Timestamp:** {0}
+    🔢 **Current Count:** {1}
+    📊 **Baseline Count:** {2}
+
+    🌐 **Index:** modsec-*
+    🕵️ **Spike Factor:** {3}
+
+alert_text_args:
+  - "@timestamp"
+  - "spike_count"
+  - "spike_baseline_count"
+  - "spike_factor"
+
+# Map severity values to corresponding labels
+alert_text_type: alert_text_only
+
+# from botfather
+telegram_bot_token: bot_token
+# Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+# https://api.telegram.org/bot_token/getUpdates
+telegram_room_id: 'chat_id'
+
