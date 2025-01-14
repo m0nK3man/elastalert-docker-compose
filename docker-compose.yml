@@ -9,7 +9,6 @@ services:
       - ./config.yaml:/opt/elastalert/config.yaml
       - ./rules:/opt/elastalert/rules
       - ./ca:/opt/elastalert/ca
-      - ./scripts:/opt/elastalert/scripts
       - "/etc/localtime:/etc/localtime:ro"
       - "/etc/timezone:/etc/timezone:ro"
     command: --verbose

@@ -34,9 +34,8 @@ The directory should look like this:
 │   ├── ssh-repeat-offender.yaml
 │   └── ssh.yaml
 ├── README.md
-├── rules
-│   └── test.yaml
-└── scripts
+└── rules
+    └── test.yaml
 ```
 
 ### Usage
