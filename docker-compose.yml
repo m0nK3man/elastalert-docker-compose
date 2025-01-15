@@ -5,6 +5,10 @@ services:
     image: jertel/elastalert2
     container_name: elastalert
     restart: always
+    environment:
+      - ES_HOST=es_host
+      - TELEGRAM_BOT_TOKEN=bot_token
+      - TELEGRAM_ROOM_ID=room_id
     volumes:
       - ./config.yaml:/opt/elastalert/config.yaml
       - ./rules:/opt/elastalert/rules

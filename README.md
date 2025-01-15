@@ -39,7 +39,7 @@ The directory should look like this:
 ```
 
 ### Usage
-Change the config.yaml to point to your ELK stack, then run:
+Change the compose env to point to your ELK stack, if needed to change the port, modify the config.yaml file, then run:
 ```sh
 docker compose up -d
 ```
